@@ -30,6 +30,9 @@ app.use('/uploads/cabanas', express.static(path.join(__dirname, '../frontend/pub
 app.use('/uploads/airbnb', express.static(path.join(__dirname, '../frontend/public/uploads/airbnb')));
 app.use('/uploads', express.static(path.join(__dirname, '../frontend/public/uploads')));
 
+// 🆕 NUEVO: Servir imágenes desde img_jalpan
+app.use('/img_jalpan', express.static(path.join(__dirname, '../img_jalpan')));
+
 // ✅ RUTAS DE DEBUG: Para verificar imágenes - CORREGIDO
 app.get('/debug/images/hoteles/:filename', (req, res) => {
   const { filename } = req.params;
@@ -89,6 +92,26 @@ app.get('/debug/images/airbnb/:filename', (req, res) => {
   }
 });
 
+// 🆕 NUEVO: Ruta de debug para img_jalpan
+app.get('/debug/images/jalpan/:filename', (req, res) => {
+  const { filename } = req.params;
+  const imagePath = path.join(__dirname, '../img_jalpan', filename);
+  
+  if (fs.existsSync(imagePath)) {
+    res.json({
+      exists: true,
+      path: imagePath,
+      url: `/img_jalpan/${filename}`,
+      size: fs.statSync(imagePath).size
+    });
+  } else {
+    res.status(404).json({
+      exists: false,
+      path: imagePath
+    });
+  }
+});
+
 // ✅ Rutas API
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/hoteles', require('./routes/hotelRoutes'));
@@ -125,6 +148,11 @@ app.get('/api', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
+// ✅ Ruta catch-all para SPA - Agregar ANTES de app.listen()
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`🌟 Servidor corriendo en puerto ${PORT}`);
   console.log(`🔗 Frontend: http://localhost:${PORT}`);
@@ -139,4 +167,5 @@ app.listen(PORT, () => {
   console.log(`🖼️ Imágenes de hoteles: /uploads/hoteles`);
   console.log(`🏕️ Imágenes de cabañas: /uploads/cabanas`);
   console.log(`🏠 Imágenes de Airbnb: /uploads/airbnb`);
+  console.log(`🖼️ Imágenes de Jalpan: /img_jalpan`);
 });
