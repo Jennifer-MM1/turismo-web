@@ -122,7 +122,7 @@ app.use('/api/guias', require('./routes/guiaTuristicaRoutes'));
 app.use('/api/cuestionarios', require('./routes/cuestionarioRoutes'));
 
 // 🔥 NUEVA LÍNEA: Agregar esta ruta para Super Admin
-app.use('/api/super-admin', require('./routes/superAdminRoutes'));
+//p.use('/api/super-admin', require('./routes/superAdminRoutes'));
 
 // ✅ Ruta principal - CORREGIDO
 app.get('/', (req, res) => {
