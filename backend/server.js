@@ -34,7 +34,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../frontend/public/uplo
 app.use('/img_jalpan', express.static(path.join(__dirname, '../img_jalpan')));
 
 // ✅ RUTAS DE DEBUG: Para verificar imágenes - CORREGIDO
-app.get('/debug/images/hoteles/:filename', (req, res) => {
+/*app.get/debug/images/hoteles/:filename', (req, res) => {
   const { filename } = req.params;
   const imagePath = path.join(__dirname, '../frontend/public/uploads/hoteles', filename);
   
@@ -111,6 +111,7 @@ app.get('/debug/images/jalpan/:filename', (req, res) => {
     });
   }
 });
+*/
 
 // ✅ Rutas API
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -122,7 +123,8 @@ app.use('/api/guias', require('./routes/guiaTuristicaRoutes'));
 app.use('/api/cuestionarios', require('./routes/cuestionarioRoutes'));
 
 // 🔥 NUEVA LÍNEA: Agregar esta ruta para Super Admin
-//p.use('/api/super-admin', require('./routes/superAdminRoutes'));
+app.use('/api/super-admin', require('./routes/superAdminRoutes'));
+
 
 // ✅ Ruta principal - CORREGIDO
 app.get('/', (req, res) => {
