@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 
 //  Servir archivos estáticos
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/admin', express.static(path.join(__dirname, 'frontend/admin')));
 
 //  Configuración específica para imágenes
