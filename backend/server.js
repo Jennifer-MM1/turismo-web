@@ -20,20 +20,20 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-//  Servir archivos estáticos
+// ✅ Servir archivos estáticos - CORREGIDO
 app.use(express.static(path.join(__dirname, '../frontend')));
-app.use('/admin', express.static(path.join(__dirname, 'frontend/admin')));
+app.use('/admin', express.static(path.join(__dirname, '../frontend/admin')));
 
-//  Configuración específica para imágenes
-app.use('/uploads/hoteles', express.static(path.join(__dirname, 'frontend/public/uploads/hoteles')));
-app.use('/uploads/cabanas', express.static(path.join(__dirname, 'frontend/public/uploads/cabanas')));
-app.use('/uploads/airbnb', express.static(path.join(__dirname, 'frontend/public/uploads/airbnb'))); // 🆕 NUEVO
-app.use('/uploads', express.static(path.join(__dirname, 'frontend/public/uploads')));
+// ✅ IMPORTANTE: Configuración específica para imágenes - CORREGIDO
+app.use('/uploads/hoteles', express.static(path.join(__dirname, '../frontend/public/uploads/hoteles')));
+app.use('/uploads/cabanas', express.static(path.join(__dirname, '../frontend/public/uploads/cabanas')));
+app.use('/uploads/airbnb', express.static(path.join(__dirname, '../frontend/public/uploads/airbnb')));
+app.use('/uploads', express.static(path.join(__dirname, '../frontend/public/uploads')));
 
-//  RUTAS DE DEBUG: Para verificar imágenes
+// ✅ RUTAS DE DEBUG: Para verificar imágenes - CORREGIDO
 app.get('/debug/images/hoteles/:filename', (req, res) => {
   const { filename } = req.params;
-  const imagePath = path.join(__dirname, 'frontend/public/uploads/hoteles', filename);
+  const imagePath = path.join(__dirname, '../frontend/public/uploads/hoteles', filename);
   
   if (fs.existsSync(imagePath)) {
     res.json({
@@ -52,7 +52,7 @@ app.get('/debug/images/hoteles/:filename', (req, res) => {
 
 app.get('/debug/images/cabanas/:filename', (req, res) => {
   const { filename } = req.params;
-  const imagePath = path.join(__dirname, 'frontend/public/uploads/cabanas', filename);
+  const imagePath = path.join(__dirname, '../frontend/public/uploads/cabanas', filename);
   
   if (fs.existsSync(imagePath)) {
     res.json({
@@ -69,10 +69,10 @@ app.get('/debug/images/cabanas/:filename', (req, res) => {
   }
 });
 
-// 🆕 NUEVO: Ruta de debug para Airbnb
+// 🆕 NUEVO: Ruta de debug para Airbnb - CORREGIDO
 app.get('/debug/images/airbnb/:filename', (req, res) => {
   const { filename } = req.params;
-  const imagePath = path.join(__dirname, 'frontend/public/uploads/airbnb', filename);
+  const imagePath = path.join(__dirname, '../frontend/public/uploads/airbnb', filename);
   
   if (fs.existsSync(imagePath)) {
     res.json({
@@ -97,13 +97,13 @@ app.use('/api/airbnb', require('./routes/airbnbRoutes'));
 app.use('/api/tours', require('./routes/tourOperadoraRoutes'));
 app.use('/api/guias', require('./routes/guiaTuristicaRoutes'));
 app.use('/api/cuestionarios', require('./routes/cuestionarioRoutes'));
+
 // 🔥 NUEVA LÍNEA: Agregar esta ruta para Super Admin
 app.use('/api/super-admin', require('./routes/superAdminRoutes'));
 
-
-// ✅ Ruta principal
+// ✅ Ruta principal - CORREGIDO
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/public/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
 // ✅ Ruta API de prueba
@@ -138,5 +138,5 @@ app.listen(PORT, () => {
   console.log(`📂 Archivos estáticos servidos desde /frontend`);
   console.log(`🖼️ Imágenes de hoteles: /uploads/hoteles`);
   console.log(`🏕️ Imágenes de cabañas: /uploads/cabanas`);
-  console.log(`🏠 Imágenes de Airbnb: /uploads/airbnb`); // 🆕 NUEVO
+  console.log(`🏠 Imágenes de Airbnb: /uploads/airbnb`);
 });
